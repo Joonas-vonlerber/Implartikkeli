@@ -63,7 +63,7 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./github_deploy/artikkeli.pdf
           asset_name: artikkeli.pdf
-          asset_type: application/pdf
+          asset_content_type: application/pdf
         
       
   clean:
