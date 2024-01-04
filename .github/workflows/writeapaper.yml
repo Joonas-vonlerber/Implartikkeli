@@ -40,13 +40,32 @@ jobs:
           path: github_artifacts
       - name: move
         run: mkdir -p github_deploy && mv github_artifacts/*/* github_deploy
-      - name: deploy on orphan branch
-        uses: peaceiris/actions-gh-pages@v3
+      - name: next version
+        uses: reecetech/version-increment@2023.9.3
+        id: version
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./github_deploy
-          publish_branch: build
-          force_orphan: true
+          scheme: calver
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with: 
+          draft: true
+          prerelease: true
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env: 
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: upload article
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./github_deploy/artikkeli.pdf
+          asset_name: artikkeli.pdf
+          asset_type: application/pdf
+        
+      
   clean:
     needs: [deploy]
     runs-on: ubuntu-latest
