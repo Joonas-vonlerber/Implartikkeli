@@ -30,6 +30,7 @@ jobs:
           path: ./github_artifacts
   deploy:
     # Edit here if compiling multiple papers
+    permissions: write-all
     needs: [paper]
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +51,6 @@ jobs:
         id: create_release
         with: 
           draft: true
-          prerelease: true
           release_name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
         env: 
@@ -67,7 +67,7 @@ jobs:
         
       
   clean:
-    needs: [deploy]
+    needs: [paper]
     runs-on: ubuntu-latest
     steps:
       - name: delete
