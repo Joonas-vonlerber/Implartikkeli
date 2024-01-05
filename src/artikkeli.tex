@@ -18,7 +18,7 @@
     pdfpagemode=FullScreen,
     citecolor = blue,
 }
-
+\usepackage{listings, listings-rust}
 
 
 \usepackage[a4paper, left = 57pt, right = 57pt, top = 43pt, bottom = 43pt]{geometry}
@@ -51,16 +51,48 @@ Jotta neuroverkon voi rakentaa itse, täytyy ensin ymmärtää neuroverkko matem
 
 \section{Rust ohjelmointikieli ja käytetyt työkalut}
 
-Artikkelissa tulen käyttämään esimerkkikoodina ja pohjana \href{https://www.rust-lang.org/}{Rust ohjelmointikieltä}, joka on matalan tason muistiturvallinen ohjelmointikieli, joka ei käytä roskankerääjää.%% Parempi nopea kuvaus?
+Artikkelissa tulen käyttämään esimerkkikoodina ja pohjana \href{https://www.rust-lang.org/}{Rust ohjelmointikieltä}, joka on matalan tason muistiturvallinen ohjelmointikieli, joka ei käytä roskankerääjää. %% Parempi nopea kuvaus?
 Esimerkkikoodit eivät käänny, sillä olen poistanut siitä ymmärtävyyttä haittaavia Rustin erikoisuuksia. Mikäli kääntyvää esimerkkikoodia halutaan,
 voi sen löytää projektin \href{https://github.com/Joonas-vonlerber/rusticneurons}{githubista}.
 
-Projektissa tarvitaan
-\begin{enumerate}
-    \item Lineaarialgebran kirjasto, johon valitsin \href{https://nalgebra.org/}{nalgebran}.
-          Nalgebra on yleislineaarialgebran kirjasto Rustille, jonka valitsin muiden lineaarialgebra kirjastojen, kuten \href{https://docs.rs/ndarray/latest/ndarray/}{ndarray}, sijaan
-\end{enumerate}
+Esimerkki esimerkkikoodista:
+\begin{lstlisting}[language=Rust, style=boxed]
+    fn main() {
+        let x: i32 = 3;
+        let s: String = "Hello, World!".to_owned();
+        for i in 0..x {
+            println!("{}", s);
+        }
+    }
+\end{lstlisting}
 
+\subsection{Tarvittavat kirjastot}
+
+Projektissa tarvitaan muutamia ulkoisia työkaluja, joista luettelen tärkeimmät:
+
+\begin{center}
+    \begin{tabular}{ |c|c| }
+        \hline
+        työkalu                   & valinta                                                                                                     \\
+        \hline
+        Lineaarialgebrakirjasto   & \href{https://nalgebra.org/}{nalgebra}                                                                      \\
+        Satunnaislukugeneraattori & \href{https://docs.rs/rand/latest/rand/}{rand}                                                              \\
+        Serialisaatiokirjaston    & \href{https://docs.rs/serde/latest/serde/}{serde} + \href{https://docs.rs/bincode/latest/bincode/}{bincode} \\
+        \hline
+    \end{tabular}
+\end{center}
+Valitsin nalgebran muiden Lineaarialgebrakirjastojen sijaan, koska nalgebralla toimiminen muistutti eniten lineaarialgebralla laskemista.
+Muita hyvä kirjastoja nalgebran lisäksi ovat esim. pythonin numpya muistuttava \href{https://docs.rs/ndarray/latest/ndarray}{ndarray}.
+Tarvitsin tehokkaan tavan tallentaa kokonaisia neuroverkkoja pieniin tiedostoihin, joten bincode, joka muuttaa datatyypit tiiviiseen binäärimuotoon, sopi tehtävään mainiosti.
+
+\subsection{Muut työkalut}
+
+Muita työkaluja, jotka voivat auttaa koodin tuottamisessa ovat:
+
+\begin{itemize}
+    \item \href{https://git-scm.com/}{git} versionhallinta, joka auttaa hallitsemaan koodin tuottamista ja varmuuskopiointia. Tähän usein kannattaa liittää \href{https://github.com}{github}.
+    \item \href{https://code.visualstudio.com/}{Visual Studio Code} tai muu vastaava ohjelmointiympäristö. Ohjelmointiympäristöön kannattaa liittää kieliserveri eli Rustin tilanteessa \href{https://rust-analyzer.github.io/}{rust-analyzer}.
+\end{itemize}
 
 \section{Neuroverkko-tyyppi}
 
